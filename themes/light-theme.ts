@@ -5,11 +5,11 @@ export const lightTheme = createTheme({
   palette: {
     mode: 'light',
     primary: {
-      main: '#1E1E1E',
+      main: '#93c12c',
       contrastText: '#ffff'
     },
     secondary: {
-      main: '#E27B60', 
+      main: '#E27B60',
       contrastText: '#ffff'
     },
     info: {
@@ -24,13 +24,13 @@ export const lightTheme = createTheme({
     },
     MuiAppBar: {
       defaultProps: {
-        elevation: 0,
+        elevation: 1,
         position: 'fixed',
       },
       styleOverrides: {
         root: {
-          backgroundColor: 'transparent',
-          height: 60
+          backgroundColor: 'white',
+          height: 70
         },
       }
     },
@@ -45,6 +45,12 @@ export const lightTheme = createTheme({
           fontSize: 20,
           fontWeight: 400
         },
+        h5: {
+          transition: 'border 0.3s, color 0.3s', 
+          '&:hover': {
+            color: '#93c12c',
+          },
+        },
         subtitle1: {
           fontSize: 18,
           fontWeight: 600
@@ -57,12 +63,10 @@ export const lightTheme = createTheme({
       defaultProps: {
         variant: 'contained',
         size: 'small',
-        disableElevation: true,
-        color: 'info',        
+        color: 'info',
       },
       styleOverrides: {
         root: {
-          
           textTransform: 'none',
           boxShadow: 'none',
           borderRadius: 10,
@@ -83,9 +87,14 @@ export const lightTheme = createTheme({
         root: {
           boxShadow: '0px 5px 5px rgba(0,0,0,0.05)',
           borderRadius: '10px',
+          transition: 'border 0.3s, color 0.3s', 
+          '&:hover': {
+            border: '1px solid #93c12c', 
+            color: '#93c12c',
+          },
         }
       }
     }
-    
+
   }
 });
