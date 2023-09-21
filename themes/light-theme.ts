@@ -1,7 +1,10 @@
 import { createTheme } from '@mui/material/styles';
 
 
+
+
 export const lightTheme = createTheme({
+  
   palette: {
     mode: 'light',
     primary: {
@@ -69,11 +72,11 @@ export const lightTheme = createTheme({
         root: {
           textTransform: 'none',
           boxShadow: 'none',
-          borderRadius: 10,
-          ":hover": {
-            backgroundColor: 'rgba(0,0,0,0.05)',
-            transition: 'all 0.3s ease-in-out'
-          }
+          // borderRadius: 10,
+          // ":hover": {
+          //   backgroundColor: 'rgba(0,0,0,0.05)',
+          //   transition: 'all 0.3s ease-in-out'
+          // }
         }
       }
     },
@@ -86,7 +89,6 @@ export const lightTheme = createTheme({
       styleOverrides: {
         root: {
           boxShadow: '0px 5px 5px rgba(0,0,0,0.05)',
-          borderRadius: '10px',
           transition: 'border 0.3s, color 0.3s', 
           '&:hover': {
             border: '1px solid #93c12c', 

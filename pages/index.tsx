@@ -1,23 +1,25 @@
 import Image from 'next/image';
 
-import { Box, Button, Card, CardContent, CardMedia, Divider, Grid, Typography } from '@mui/material';
+import { Box, Button, Card, CardContent, CardMedia, Divider, Grid, Typography, useMediaQuery } from '@mui/material';
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import MarkunreadMailboxIcon from '@mui/icons-material/MarkunreadMailbox';
 import CreditScoreIcon from '@mui/icons-material/CreditScore';
 
-import Carousel from 'nuka-carousel';
-
 import { MainLayout } from '@/components/layouts';
-import { ProductCard } from '@/components/catalog';
+import { ProductCard, ProductList, products } from '@/components/catalog';
+import Carousel from 'nuka-carousel';
+import { useTheme } from '@mui/material/styles';
+
 
 const HomePage = () => {
-  
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'))
   return (
     <MainLayout title={''} pageDescription={''}>
       <Box
         sx={{
           height: 400,
-          display: 'flex',
+          display: { sm: 'block', md: 'flex' },
           flexDirection: 'column',
           justifyContent: 'center',
           alignItems: 'center',
@@ -28,7 +30,7 @@ const HomePage = () => {
           container
           spacing={4}
         >
-          <Grid item sm={6}  mt={6} ml={8}>
+          <Grid item sm={6} mt={6} ml={8}>
             <Typography variant="h3" color='#284c36'>
               Cultivando Sueños, Sembrando Vida.
             </Typography>
@@ -47,6 +49,7 @@ const HomePage = () => {
             container
             justifyContent="start"
             alignItems="flex-start"
+            sx={{ display: { xs: 'none', md: 'flex' } }}
           >
             <Image
               src='/banner.png'
@@ -60,10 +63,8 @@ const HomePage = () => {
 
       <Box
         sx={{
-          height: 500,
-          width: '100%',
-          display: 'flex',
-          flexDirection: 'column',
+          display: { xs: 'block', sm: 'flex' },
+          flexDirection: { xs: 'row', sm: 'column' },
           justifyContent: 'center',
           alignItems: 'center',
           bgcolor: '#F7F1ED',
@@ -195,17 +196,27 @@ const HomePage = () => {
         mb={5}
       >
         <Typography variant='h1' align='center' color='#284c36'>Productos de Temporada</Typography>
-        <Carousel
-          slidesToShow={3}
-          autoplay
-          speed={500}        
-        >
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-        </Carousel>
+
+        <Box maxWidth='100%'>
+          <Carousel
+            slidesToShow={ isSmallScreen ? 1 : 3}
+            slidesToScroll={ isSmallScreen ? 1 : 3}
+            autoplay            
+            cellAlign='center'
+            speed={500}
+            disableEdgeSwiping            
+          >
+            {
+              products.map(product => (
+                <ProductCard
+                  key={product.id}
+                  product={product}
+                />
+              ))
+            }
+
+          </Carousel>
+        </Box>
         <Button
           variant="contained"
           color="primary"
@@ -218,7 +229,6 @@ const HomePage = () => {
 
       <Box
         sx={{
-          height: 550,
           width: '100%',
           display: 'flex',
           flexDirection: 'column',
@@ -320,15 +330,6 @@ const HomePage = () => {
         </Button>
       </Box>
 
-      {/* <Divider 
-        orientation='horizontal' 
-        
-        sx={{ 
-          borderColor: '#93c12c', 
-          mt: 5,
-          borderWidth: 1.5
-        }} 
-      /> */}
       <Box
         display='flex'
         flexDirection='column'
@@ -346,23 +347,23 @@ const HomePage = () => {
         >
           <Grid item ml={4} mt={2} marginTop={4} >
             <Card
-              sx={{ 
+              sx={{
                 alignItems: 'center',
                 border: '1px solid #666',
-                display: 'flex', 
+                display: 'flex',
                 height: 100,
                 padding: '16px',
                 width: 250,
               }}
             >
-              <LocalShippingIcon 
-                color='primary' 
+              <LocalShippingIcon
+                color='primary'
                 fontSize='large'
                 sx={{ mr: 2 }}
               />
-              <Typography 
+              <Typography
                 variant="h6"
-                color='#284c36' 
+                color='#284c36'
                 align='left'
               >
                 Envío gratis a partir de B/. 50
@@ -371,8 +372,8 @@ const HomePage = () => {
           </Grid>
           <Grid item ml={4} mt={2} marginTop={4} >
             <Card
-              sx={{ 
-                display: 'flex', 
+              sx={{
+                display: 'flex',
                 alignItems: 'center',
                 width: 250,
                 height: 100,
@@ -380,14 +381,14 @@ const HomePage = () => {
                 border: '1px solid #666',
               }}
             >
-              <MarkunreadMailboxIcon 
-                color='primary' 
+              <MarkunreadMailboxIcon
+                color='primary'
                 fontSize='large'
                 sx={{ mr: 2 }}
               />
-              <Typography 
+              <Typography
                 variant="h6"
-                color='#284c36' 
+                color='#284c36'
                 align='left'
               >
                 Transporte Especializado
@@ -396,8 +397,8 @@ const HomePage = () => {
           </Grid>
           <Grid item ml={4} mt={2} marginTop={4} >
             <Card
-              sx={{ 
-                display: 'flex', 
+              sx={{
+                display: 'flex',
                 alignItems: 'center',
                 width: 250,
                 height: 100,
@@ -405,14 +406,14 @@ const HomePage = () => {
                 border: '1px solid #666',
               }}
             >
-              <CreditScoreIcon 
-                color='primary' 
+              <CreditScoreIcon
+                color='primary'
                 fontSize='large'
                 sx={{ mr: 2 }}
               />
-              <Typography 
+              <Typography
                 variant="h6"
-                color='#284c36' 
+                color='#284c36'
                 align='left'
               >
                 ¡Métodos de pago seguros!
