@@ -34,6 +34,8 @@
     "react-responsive-carousel": "^3.2.23",
     "react-slideshow-image": "^4.2.1",
     "swr": "^2.1.5",
+    "formidable": "^3.5.0",
+    "cloudinary": "^1.40.0",
     "typescript": "5.2.2"
   },
   "devDependencies": {
