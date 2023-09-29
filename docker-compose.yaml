@@ -1,7 +1,7 @@
 services:
   teslodb:
     image: mongo:5.0.0
-    container_name: inkas-database
+    container_name: jardinex-database
     ports:
       - 27017:27017
     volumes:
