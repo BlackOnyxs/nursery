@@ -1,19 +1,25 @@
 import Image from 'next/image';
 
-import { Box, Button, Card, CardContent, CardMedia, Divider, Grid, Typography, useMediaQuery } from '@mui/material';
+import useSWR from 'swr';
+import Carousel from 'nuka-carousel';
+
+import { Box, Button, Card, CardContent, CardMedia, CircularProgress, Grid, Typography, useMediaQuery } from '@mui/material';
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import MarkunreadMailboxIcon from '@mui/icons-material/MarkunreadMailbox';
 import CreditScoreIcon from '@mui/icons-material/CreditScore';
 
+import { ICategory } from '@/interfaces';
 import { MainLayout } from '@/components/layouts';
-import { ProductCard, ProductList, products } from '@/components/catalog';
-import Carousel from 'nuka-carousel';
+import { ProductCard, products } from '@/components/catalog';
 import { useTheme } from '@mui/material/styles';
+import { CategoryList } from '@/components/category';
 
 
 const HomePage = () => {
   const theme = useTheme();
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'))
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
+
+  const { data = [], error, isLoading } = useSWR<ICategory[]>('/api/categories');
   return (
     <MainLayout title={''} pageDescription={''}>
       <Box
@@ -80,110 +86,27 @@ const HomePage = () => {
           justifyContent='center'
           alignItems='center'
         >
-          <Grid item ml={4} mt={2} marginTop={4} >
-            <Card
-              sx={{
-                bgcolor: 'transparent',
-                width: 250,
-                height: 350,
-                border: '1px solid #666',
-                padding: '40px',
-              }}
-            >
-              <CardMedia
-                sx={{ height: 200, padding: 10 }}
-                image="/plant.png"
-                title="Plant icon"
-              />
-              <CardContent>
-                <Typography
-                  gutterBottom
-                  variant="h5"
-                  color='#284c36'
-                  align='center'
-                  className='hover'
-                >
-                  Plantas
-                </Typography>
-
-              </CardContent>
-            </Card>
-          </Grid>
-          <Grid item ml={4} mt={2} marginTop={4}>
-            <Card
-              sx={{
-                bgcolor: 'transparent',
-                width: 250,
-                height: 350,
-                border: '1px solid #666',
-                padding: '40px',
-              }}
-            >
-              <CardMedia
-                sx={{ height: 200, padding: 10 }}
-                image="/fertilizante.png"
-                title="fertilizante icon"
-              />
-              <CardContent>
-                <Typography gutterBottom variant="h5" color='#284c36' align='center'>
-                  Tratamientos
-                </Typography>
-
-              </CardContent>
-            </Card>
-          </Grid>
-          <Grid item ml={4} mt={2} marginTop={4}>
-            <Card
-              sx={{
-                bgcolor: 'transparent',
-                width: 250,
-                height: 350,
-                border: '1px solid #666',
-                padding: '25px',
-              }}
-            >
-              <CardMedia
-                sx={{ height: 200, padding: 10 }}
-                image="/tools.png"
-                title="tools icon"
-              />
-              <CardContent>
-                <Typography
-                  gutterBottom
-                  variant="h5"
-                  color='#284c36'
-                  align='center'
-                  mt={2}
-                >
-                  Herramientas
-                </Typography>
-
-              </CardContent>
-            </Card>
-          </Grid>
-          <Grid item ml={4} mt={2} marginTop={4}>
-            <Card
-              sx={{
-                bgcolor: 'transparent',
-                width: 250,
-                height: 350,
-                border: '1px solid #666',
-                padding: '25px',
-              }}
-            >
-              <CardMedia
-                sx={{ height: 200, padding: 10 }}
-                image="/shovels.png"
-                title="Plant icon"
-              />
-              <CardContent>
-                <Typography gutterBottom variant="h5" color='#284c36' align='center'>
-                  Kits
-                </Typography>
-
-              </CardContent>
-            </Card>
-          </Grid>
+          {
+            error
+              ? <h4 style={{ marginLeft: 10, color: 'red' }}>Algo salió mal. Vuelve a intentar más tarde.</h4>
+              : (
+                <div className="container">
+                  {
+                    isLoading
+                      ? <CircularProgress color='secondary' thickness={2} />
+                      : (
+                        <>
+                          {
+                            data.length <= 0
+                              ? <h4>No hay imagenes que mostrar</h4> //!Todo add component
+                              : <CategoryList categories={data!} />
+                          }
+                        </>
+                      )
+                  }
+                </div>
+              )
+          }
         </Grid>
       </Box>
 
@@ -199,12 +122,12 @@ const HomePage = () => {
 
         <Box maxWidth='100%'>
           <Carousel
-            slidesToShow={ isSmallScreen ? 1 : 3}
-            slidesToScroll={ isSmallScreen ? 1 : 3}
-            autoplay            
+            slidesToShow={isSmallScreen ? 1 : 3}
+            slidesToScroll={isSmallScreen ? 1 : 3}
+            autoplay
             cellAlign='center'
             speed={500}
-            disableEdgeSwiping            
+            disableEdgeSwiping
           >
             {
               products.map(product => (
